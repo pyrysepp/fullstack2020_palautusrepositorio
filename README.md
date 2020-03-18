@@ -1,0 +1,2 @@
+# fullstack2020_palautusrepositorio
+fullstack 2020 kurssin palautusrepositorio
