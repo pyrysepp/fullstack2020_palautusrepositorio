@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import {Course} from './modules/Course.js'
 
 
-
+console.log("test")
 const App = () => {
   const courses = [
     {
