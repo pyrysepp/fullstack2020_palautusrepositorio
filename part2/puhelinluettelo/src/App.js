@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import {Personlist, Search} from "./modules/Personlist.js"
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas',
-      number: 112,
-      id: 1 }
-  ]) 
+  const [ persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [searchField, setSearch] = useState('')
+
+  const hook = () => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log(response.data)
+        setPersons(response.data)
+    })
+  }
   
+  useEffect(hook,[])
+
   const addPerson = (event) => {
     event.preventDefault()
     console.log(persons.some(person => person.name === newName))
