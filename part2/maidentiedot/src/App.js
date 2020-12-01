@@ -5,26 +5,35 @@ import Axios from 'axios';
 
 const Country = ({country}) => {
   const [weather, setWeatherData] = useState([])
+  const [isLoading, setLoading] = useState(false)
   const apiKey = process.env.REACT_APP_API_KEY
-  console.log(apiKey)
-  console.log("apirequest: ", `http://api.weatherstack.com/current
-  ?access_key=${apiKey}
-  &query=${country.capital}`)
+  
 
   
 
   useEffect(() => {
-    Axios.get(`http://api.weatherstack.com/current
-    ? access_key = ${apiKey}
-    & query = ${country.capital}`)
+    Axios.get(`http://api.weatherstack.com/current?access_key=${apiKey}&query=${country.capital}`)
     .then(response => {
-      console.log("weather data: " ,response)
+      console.log("weather data: " ,response.data)
       setWeatherData(response.data)
+      setLoading(true)
     }).catch(error => {
       console.log(error)
     })
   },[apiKey,country.capital])
-
+  if(!isLoading) {
+    return(
+      <div>
+      <h2>{country.name}</h2>
+      <p>Capital {country.capital}</p>
+      <p>Population {country.population}</p>
+      <h4>Languages</h4>
+      {country.languages.map(l => <p key={l.iso639_2}>{l.name}</p>)}
+      <img src={country.flag} width="200px" height="150px" />
+      <h3>Loading weather data...</h3>
+      </div>
+    )
+  } else {
   return(
     <div>
       <h2>{country.name}</h2>
@@ -35,13 +44,14 @@ const Country = ({country}) => {
       <img src={country.flag} width="200px" height="150px" />
       <div>
         <h4>Weather in {country.capital} </h4>
-        {/* <p>{weather.current.weather_descriptions[0]}</p>
+        <p>{weather.current.weather_descriptions[0]}</p>
         <p>temperature: {weather.current.temperature} C</p>
         <img src={weather.current.weather_icons[0]} width="100px" height="100px" />
-        <p>Wind: {weather.current.wind_speed}</p> */}
+        <p>Wind: {weather.current.wind_speed} m/s</p>
       </div>
     </div>
   )
+  }
 }
 const CountryName = ({country}) => {
   const [showCountry, setShowCountry] = useState(false)
