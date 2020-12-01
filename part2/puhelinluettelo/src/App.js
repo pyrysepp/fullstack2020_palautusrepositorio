@@ -1,6 +1,7 @@
-import axios from 'axios'
+
 import React, { useState, useEffect } from 'react'
 import {Personlist, Search} from "./modules/Personlist.js"
+import personServices from "./services/persons.js"
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -8,52 +9,75 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
   const [searchField, setSearch] = useState('')
 
-  const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log(response.data)
-        setPersons(response.data)
-    })
-  }
   
-  useEffect(hook,[])
+  useEffect(() => {
+    personServices.getAll()
+    .then(initialPersons => setPersons(initialPersons))
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
-    console.log(persons.some(person => person.name === newName))
 
-    if(persons.some(person => person.name === newName)) {
-      window.alert(`${newName} is already added to the phonebook`)
-      setNewName('')
-      setNewNumber('')
-    } else {
-      const newPerson = 
-        {name: newName,
-         number: newNumber,
-         id: persons.length + 1
-        }
-      
-      setPersons(persons.concat(newPerson))
-      setNewName('')
-      setNewNumber('')
-      
+    const newPerson = {
+      name: newName,
+      number: newNumber,
     }
+    console.log(newPerson.name, persons)
+    if(persons.some(p => p.name === newName)) {
+      console.log("Täälä ollaan");
+      if(window.confirm(`${newName} already exists in the phonebook, do you want to update the number?`)) {
+        const existingPerson = persons.find(p=> p.name === newPerson.name)
+        const updatedPerson = {...existingPerson, number: newPerson.number}
+        console.log(updatedPerson)
+        personServices.update(existingPerson.id, updatedPerson)
+        .then(returned => {
+
+         setPersons(persons.map(p => p.id !== existingPerson.id ? p : returned))
+         setNewName('')
+         setNewNumber('')
+        })
+        .catch(error => console.log(error)
+        )
+      } else {
+        setNewName('')
+        setNewNumber('')
+      }
+    } else {
+    personServices.create(newPerson)
+    .then(createdPerson => {
+      setPersons(persons.concat(createdPerson))
+      setNewName('')
+      setNewNumber('')
+    })
+    .catch(error => console.log(error))
   }
+  }
+
+ const handleDelete = (e, id) => {
+   e.preventDefault()
+
+   personServices.updateDelete(id)
+   .then(data => {
+     setPersons(persons.filter(p => p.id !== id))
+   })
+   .catch(error => console.log(error))
+ }
+
   const handleSearch = (event) => {
       setSearch(event.target.value)
-      console.log(dSearch)
+      
   }
+
   const handleInput = (event) => {
-    console.log(event.target.value)
+    
     setNewName(event.target.value)
   }
+
   const handleNumberInput = (event) => {
     setNewNumber(event.target.value)
     
   }
-  const dSearch = () => {
-    
+  const dSearch = () => {  
     return persons.filter(p => p.name.toLowerCase().includes(searchField.toLocaleLowerCase()))
   }
   
@@ -74,7 +98,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Personlist persons={dSearch()} />
+      <Personlist handleDelete={handleDelete} persons={dSearch()} />
     </div>
   )
 
