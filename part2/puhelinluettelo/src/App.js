@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from 'react'
 import {Personlist, Search} from "./modules/Personlist.js"
 import personServices from "./services/persons.js"
+import {NotificationMessage} from "./modules/Notification.js"
 
 const App = () => {
   const [ persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [searchField, setSearch] = useState('')
-
+  const [statusMessage, setStatusMessage] = useState(null)
   
   useEffect(() => {
     personServices.getAll()
@@ -35,9 +36,16 @@ const App = () => {
          setPersons(persons.map(p => p.id !== existingPerson.id ? p : returned))
          setNewName('')
          setNewNumber('')
+         setStatusMessage({
+           message: `Updated the number of ${newPerson.name}`,
+           good: true 
         })
-        .catch(error => console.log(error)
-        )
+         setTimeout(()=> setStatusMessage(null),5000)
+        })
+        .catch(error => {
+          console.log(error)
+          setStatusMessage(``)
+        })
       } else {
         setNewName('')
         setNewNumber('')
@@ -48,6 +56,11 @@ const App = () => {
       setPersons(persons.concat(createdPerson))
       setNewName('')
       setNewNumber('')
+      setStatusMessage({
+        message: `Added ${newPerson.name}`,
+        good: true
+      })
+      setTimeout(()=> setStatusMessage(null),5000)
     })
     .catch(error => console.log(error))
   }
@@ -58,9 +71,18 @@ const App = () => {
 
    personServices.updateDelete(id)
    .then(data => {
+     
      setPersons(persons.filter(p => p.id !== id))
    })
-   .catch(error => console.log(error))
+   .catch(error => {
+     console.log(error)
+     setStatusMessage({
+       message: `Information of ${persons.find(p=> p.id === id).name} has already been deleted from the server`,
+       good: false
+     })
+     setTimeout(()=> setStatusMessage(null),5000)
+     setPersons(persons.filter(p => p.id !== id))
+   })
  }
 
   const handleSearch = (event) => {
@@ -85,7 +107,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <NotificationMessage message={statusMessage} />
       <Search searchField={searchField} setSearch={handleSearch} />
+      
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleInput}/>
