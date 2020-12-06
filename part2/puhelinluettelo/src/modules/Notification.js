@@ -11,7 +11,7 @@ export const NotificationMessage = ({message}) => {
         border: '2px solid red',
         padding: '10px'
     }
-   
+    
     if(message === null) {
         return( null )
     } else {
