@@ -44,12 +44,14 @@ const App = () => {
         })
         .catch(error => {
           console.log(error)
-          setStatusMessage(``)
+          setStatusMessage({
+            message: error.response.data.error,
+            good: false
+          })
+          setNewNumber('')
+          setNewNumber('')
         })
-      } else {
-        setNewName('')
-        setNewNumber('')
-      }
+      } 
     } else {
     personServices.create(newPerson)
     .then(createdPerson => {
@@ -62,9 +64,15 @@ const App = () => {
       })
       setTimeout(()=> setStatusMessage(null),5000)
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      setStatusMessage({
+        message: error.response.data.error,
+        good: false
+      })
+  })
   }
-  }
+}
 
  const handleDelete = (e, id) => {
    e.preventDefault()
@@ -73,6 +81,10 @@ const App = () => {
    .then(data => {
      
      setPersons(persons.filter(p => p.id !== id))
+     setStatusMessage({
+       message: `Succesfully deleted ${data.name} from phonebook`,
+       good: true
+     })
    })
    .catch(error => {
      console.log(error)
@@ -84,6 +96,8 @@ const App = () => {
      setPersons(persons.filter(p => p.id !== id))
    })
  }
+
+
 
   const handleSearch = (event) => {
       setSearch(event.target.value)
@@ -129,4 +143,3 @@ const App = () => {
 }
 
 export default App
-
