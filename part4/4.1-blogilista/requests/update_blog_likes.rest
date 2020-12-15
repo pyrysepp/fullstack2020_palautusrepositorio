@@ -1,6 +1,0 @@
-PUT http://localhost:3001/api/blogs/5fd88d718b3b8705c9df9982
-Content-Type: application/json
-
-{
-    "author": "erkki"
-}
