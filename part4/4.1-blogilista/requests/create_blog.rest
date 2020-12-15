@@ -1,9 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InB5cnlzIiwiaWQiOiI1ZmQ4ZDU4NTZlZGU2NTBlNzQ4Y2VkYWYiLCJpYXQiOjE2MDgwNTIzNjR9.sn3VoR_dCzfwlwEAcq_LYJLLPgeJ9aX-O2rbMH5Ep8w
 
 {
   "title": "testi",
   "author": "minä",
   "url": "https://www.youtube.com/",
-  "likes": 10
+  "likes": 10,
+  "userId": "5fd8c4ee75c90e0a01872cea"
 }

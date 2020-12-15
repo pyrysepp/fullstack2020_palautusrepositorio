@@ -1,29 +1,41 @@
-const blogsRouter = require('./controllers/blogs')
-const logger = require('./utils/logger')
-const config = require('./utils/config')
-const express = require('express')
-const cors = require('cors')
-const mongoose = require('mongoose')
-const errorHandler = require('./utils/error_handler').errorHandler
-const app = express()
+require("express-async-errors");
+const blogsRouter = require("./controllers/blogs");
+const usersRouter = require("./controllers/users");
+const loginRouter = require("./controllers/login");
+const logger = require("./utils/logger");
+const config = require("./utils/config");
+const tokenExtractor = require("./utils/tokenExtractor");
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const errorHandler = require("./utils/error_handler");
 
-const mongoUrl = config.MONGODB_URI
+const app = express();
 
-logger.info('connecting to ', mongoUrl)
+const mongoUrl = config.MONGODB_URI;
 
-mongoose.connect(mongoUrl, {
-  useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true 
-})
-.then(() => {
-    logger.info('connected succesfully to MongoDB')
-})
-.catch((error) => {
-    logger.error('error connecting to MongoDB', error.message)
-})
+logger.info("connecting to ", mongoUrl);
 
-app.use(cors())
-app.use(express.json())
-app.use('/api/blogs', blogsRouter)
-app.use(errorHandler)
+mongoose
+  .connect(mongoUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  })
+  .then(() => {
+    logger.info("connected succesfully to MongoDB");
+  })
+  .catch((error) => {
+    logger.error("error connecting to MongoDB", error.message);
+  });
 
-module.exports = app
+app.use(cors());
+app.use(express.json());
+app.use(tokenExtractor);
+app.use("/api/blogs", blogsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
+app.use(errorHandler);
+
+module.exports = app;
