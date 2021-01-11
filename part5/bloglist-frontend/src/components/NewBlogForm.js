@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 const NewBlogForm = ({ loginStatus, createBlog }) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const newBlog = {
       title,
       author,
       url,
-    };
-    createBlog(newBlog);
-    setTitle("");
-    setAuthor("");
-    setUrl("");
-  };
+    }
+    createBlog(newBlog)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
 
   if (loginStatus) {
     return (
@@ -49,10 +49,10 @@ const NewBlogForm = ({ loginStatus, createBlog }) => {
         </div>
         <button type="submit">create</button>
       </form>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
-export default NewBlogForm;
+export default NewBlogForm

@@ -1,18 +1,18 @@
-import React from "react";
-import "../styles/StatusMessage.css";
-const StatusMessage = ({ statusMessage, setStatusMessage }) => {
+import React from 'react'
+import '../styles/StatusMessage.css'
+const StatusMessage = ({ statusMessage }) => {
   if (statusMessage === null) {
-    return null;
+    return null
   }
-  let classname = "goodStatus";
+  let classname = 'goodStatus'
   if (!statusMessage.good) {
-    classname = "badStatus";
+    classname = 'badStatus'
   }
   return (
     <div className={classname}>
       <h3>{statusMessage.message}</h3>
     </div>
-  );
-};
+  )
+}
 
-export default StatusMessage;
+export default StatusMessage

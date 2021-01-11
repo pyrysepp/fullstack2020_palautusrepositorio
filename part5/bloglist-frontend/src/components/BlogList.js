@@ -1,5 +1,6 @@
-import React from "react";
-import Blog from "./Blog";
+import React from 'react'
+import Blog from './Blog'
+import PropTypes from 'prop-types'
 
 const BlogList = ({ blogs, loginStatus, removeBlog }) => {
   if (loginStatus) {
@@ -10,10 +11,15 @@ const BlogList = ({ blogs, loginStatus, removeBlog }) => {
           <Blog key={blog.id} removeBlog={removeBlog} blog={blog} />
         ))}
       </div>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
-export default BlogList;
+BlogList.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  loginStatus: PropTypes.bool.isRequired,
+  removeBlog: PropTypes.func.isRequired
+}
+export default BlogList
