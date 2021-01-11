@@ -34,7 +34,7 @@ const Blog = ({ blog, removeBlog, testHandler }) => {
                 <p>{blog.url}</p>
                 <p>
                     {likes} <button onClick={() => {
-                        handleLike
+                        handleLike()
                         testHandler()
                     }}>like</button>
                 </p>

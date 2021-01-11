@@ -8,7 +8,7 @@ const BlogList = ({ blogs, loginStatus, removeBlog }) => {
             <div>
                 <h2>blogs</h2>
                 {blogs.map((blog) => (
-                    <Blog key={blog.id} removeBlog={removeBlog} blog={blog} />
+                    <Blog key={blog.id} removeBlog={removeBlog} testHandler={() => null} blog={blog} />
                 ))}
             </div>
         )
