@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import "../styles/Blog.css"
 import blogService from "../services/blogService"
 
-const Blog = ({ blog, removeBlog }) => {
+const Blog = ({ blog, removeBlog, testHandler }) => {
     const [showFull, setShowFull] = useState(false)
     const [likes, setLikes] = useState(blog.likes)
 
@@ -14,6 +14,7 @@ const Blog = ({ blog, removeBlog }) => {
                 ...blog,
                 likes: likes + 1,
             })
+
         } catch (error) {
             console.log(error)
         }
@@ -32,7 +33,10 @@ const Blog = ({ blog, removeBlog }) => {
                 <button onClick={() => setShowFull(!showFull)}>hide</button>
                 <p>{blog.url}</p>
                 <p>
-                    {likes} <button onClick={handleLike}>like</button>
+                    {likes} <button onClick={() => {
+                        handleLike
+                        testHandler()
+                    }}>like</button>
                 </p>
                 <p>{blog.author}</p>
                 <button onClick={() => removeBlog(blog.id)}>remove</button>

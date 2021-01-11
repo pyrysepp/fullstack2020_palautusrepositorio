@@ -21,11 +21,12 @@ const NewBlogForm = ({ loginStatus, createBlog }) => {
 
     if (loginStatus) {
         return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} id="form">
                 <h2>Add a new blog</h2>
                 <div>
           title
                     <input
+                        id="titleInput"
                         type="text"
                         value={title}
                         onChange={({ target }) => setTitle(target.value)}
@@ -34,6 +35,7 @@ const NewBlogForm = ({ loginStatus, createBlog }) => {
                 <div>
           author
                     <input
+                        id="authorInput"
                         type="text"
                         value={author}
                         onChange={({ target }) => setAuthor(target.value)}
@@ -42,6 +44,7 @@ const NewBlogForm = ({ loginStatus, createBlog }) => {
                 <div>
           url
                     <input
+                        id="urlInput"
                         type="text"
                         value={url}
                         onChange={({ target }) => setUrl(target.value)}
