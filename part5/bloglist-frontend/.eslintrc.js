@@ -21,12 +21,12 @@ module.exports = {
     "rules": {
         "indent": [
             "error",
-            2  
+            4
         ],
         
         "quotes": [
             "error",
-            "single"
+            "double"
         ],
         "semi": [
             "error",
