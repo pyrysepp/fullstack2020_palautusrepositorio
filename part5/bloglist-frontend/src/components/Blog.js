@@ -29,10 +29,10 @@ const Blog = ({ blog, removeBlog, testHandler }) => {
     } else {
         return (
             <div className="Blog">
-                {blog.title}{" "}
+                <p>{blog.title}</p>
                 <button onClick={() => setShowFull(!showFull)}>hide</button>
                 <p>{blog.url}</p>
-                <p>
+                <p className="likes">
                     {likes} <button onClick={() => {
                         handleLike()
                         testHandler()

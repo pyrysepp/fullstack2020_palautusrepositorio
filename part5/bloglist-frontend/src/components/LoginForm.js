@@ -55,10 +55,11 @@ const LoginForm = ({
     if (loggedUser === null) {
         return (
             <div>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleLogin} className="loginForm">
                     <div>
             Username
                         <input
+                            id="usernameInput"
                             type="text"
                             value={userName}
                             onChange={({ target }) => setUserName(target.value)}
@@ -67,6 +68,7 @@ const LoginForm = ({
                     <div>
             Password
                         <input
+                            id="passwordInput"
                             type="password"
                             value={password}
                             onChange={({ target }) => setPassword(target.value)}

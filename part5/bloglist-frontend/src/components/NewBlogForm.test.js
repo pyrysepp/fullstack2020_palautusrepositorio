@@ -28,7 +28,7 @@ describe("<NewBlogForm />", () => {
             target: { value: testBlog.url }
         })
         fireEvent.submit(form)
-       
+
         expect(mockhandler.mock.calls[0][0]).toMatchObject(testBlog)
     })
 })

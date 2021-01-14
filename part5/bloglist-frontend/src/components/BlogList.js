@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 const BlogList = ({ blogs, loginStatus, removeBlog }) => {
     if (loginStatus) {
         return (
-            <div>
+            <div className="Bloglist">
                 <h2>blogs</h2>
                 {blogs.map((blog) => (
                     <Blog key={blog.id} removeBlog={removeBlog} testHandler={() => null} blog={blog} />
