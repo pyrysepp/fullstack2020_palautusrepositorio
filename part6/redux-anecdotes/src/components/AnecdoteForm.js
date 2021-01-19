@@ -12,13 +12,11 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ""
+
     dispatch(createAnecdote(content))
     dispatch(
-      setNotification(`You created an anecdote with content "${content}"`)
+      setNotification(`You created an anecdote with content "${content}"`, 5)
     )
-    setTimeout(() => {
-      deleteNotification()
-    }, 5000)
   }
   return (
     <div>
