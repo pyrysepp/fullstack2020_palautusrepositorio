@@ -1,5 +1,8 @@
+let timeoutID = undefined
+
 const initialState = {
   message: "asdasdasd",
+  timeoutID: undefined,
 }
 
 const notificationReducer = (state = initialState, action) => {
@@ -19,17 +22,25 @@ const notificationReducer = (state = initialState, action) => {
 
 export const setNotification = (message, showTime) => {
   return async (dispatch) => {
-    dispatch(showNotification(message))
-    setTimeout(() => {
+    if (timeoutID) {
+      console.log(timeoutID)
+      clearTimeout(timeoutID)
+    }
+
+    timeoutID = setTimeout(() => {
       dispatch(deleteNotification())
     }, showTime * 1000)
+
+    dispatch(showNotification(message))
   }
 }
-export const showNotification = (message) => {
+
+export const showNotification = (message, timeoutID) => {
   return {
     type: "SET-NOTIFICATION",
     data: {
       message,
+      timeoutID,
     },
   }
 }
