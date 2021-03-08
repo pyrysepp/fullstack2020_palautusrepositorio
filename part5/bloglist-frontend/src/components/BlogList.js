@@ -1,13 +1,16 @@
 import React from "react"
 import Blog from "./Blog"
 import PropTypes from "prop-types"
+import _ from "lodash"
 
 const BlogList = ({ blogs, loginStatus, removeBlog }) => {
     if (loginStatus) {
         return (
             <div className="Bloglist">
                 <h2>blogs</h2>
-                {blogs.map((blog) => (
+                {_.sortBy(blogs, function(b) {
+                    return -b.likes
+                }).map((blog) => (
                     <Blog key={blog.id} removeBlog={removeBlog} testHandler={() => null} blog={blog} />
                 ))}
             </div>

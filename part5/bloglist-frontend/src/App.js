@@ -5,7 +5,7 @@ import LoginForm from "./components/LoginForm"
 import NewBlogForm from "./components/NewBlogForm"
 import StatusMessage from "./components/StatusMessage"
 import Togglable from "./components/Togglable"
-import _ from "lodash"
+
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -17,7 +17,7 @@ const App = () => {
     useEffect(() => {
         const fetchData = async () => {
             const allBlogs = await blogService.getAll()
-            setBlogs(_.sortBy(allBlogs, "likes").reverse())
+            setBlogs(allBlogs)
         }
         fetchData()
     }, [])
