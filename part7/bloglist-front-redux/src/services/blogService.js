@@ -4,38 +4,38 @@ const baseUrl = "/api/blogs"
 let token = null
 
 const setToken = (newToken) => {
-    token = `bearer ${newToken}`
+  token = `bearer ${newToken}`
 }
 
 const getAll = async () => {
-    const response = await axios.get(baseUrl)
-    return response.data
+  const response = await axios.get(baseUrl)
+  return response.data
 }
 const remove = async (blogId) => {
-    const config = {
-        headers: { Authorization: token },
-    }
+  const config = {
+    headers: { Authorization: token },
+  }
 
-    const response = await axios.delete(`${baseUrl}/${blogId}`, config)
-
-    return response
+  const response = await axios.delete(`${baseUrl}/${blogId}`, config)
+  console.log("remove: ", response)
+  return response.data
 }
 const create = async (newObject) => {
-    const config = {
-        headers: { Authorization: token },
-    }
+  const config = {
+    headers: { Authorization: token },
+  }
 
-    const response = await axios.post(baseUrl, newObject, config)
-    console.log(response)
-    return response
+  const response = await axios.post(baseUrl, newObject, config)
+
+  return response.data
 }
 
 const likeBlog = async (blogToLike) => {
-    const url = `/api/blogs/${blogToLike.id}`
+  const url = `/api/blogs/${blogToLike.id}`
 
-    const response = await axios.put(url, blogToLike)
+  const response = await axios.put(url, blogToLike)
 
-    return response
+  return response.data
 }
 
 export default { getAll, create, setToken, likeBlog, remove }
