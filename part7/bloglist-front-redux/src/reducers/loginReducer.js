@@ -1,6 +1,3 @@
-import blogService from "../services/blogService"
-import loginService from "../services/loginService"
-
 const initialState = { user: undefined, loginStatus: false }
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,19 +18,14 @@ const loginReducer = (state = initialState, action) => {
 
 export const loginAction = (user) => {
   return async (dispatch) => {
-    const loggedUser = await loginService.login(user)
-    window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(loggedUser))
-    blogService.setToken(loggedUser.token)
     dispatch({
       type: "LOGIN",
-      data: loggedUser,
+      data: user,
     })
   }
 }
 export const logoutAction = () => {
   return async (dispatch) => {
-    window.localStorage.removeItem("loggedBlogAppUser")
-    blogService.setToken(null)
     dispatch({
       type: "LOGOUT",
     })

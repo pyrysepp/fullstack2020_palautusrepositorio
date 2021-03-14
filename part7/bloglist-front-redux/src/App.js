@@ -6,6 +6,7 @@ import StatusMessage from "./components/StatusMessage"
 import Togglable from "./components/Togglable"
 import { useDispatch, useSelector } from "react-redux"
 import { initializeBlogs } from "./reducers/blogReducer"
+import AllUsers from "./components/AllUsers"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -24,6 +25,7 @@ const App = () => {
           <NewBlogForm reff={blogFormRef} />
         </Togglable>
         <BlogList />
+        <AllUsers />
       </div>
     )
   } else {
