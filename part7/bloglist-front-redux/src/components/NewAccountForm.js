@@ -3,6 +3,7 @@ import { useState } from "react"
 import { setNotification } from "../reducers/notificationReducer"
 import { useDispatch } from "react-redux"
 import userService from "../services/userService"
+import { addUser } from "../reducers/usersReducer"
 const NewAccountForm = () => {
   const [username, setUsername] = useState("")
   const [name, setName] = useState("")
@@ -20,6 +21,7 @@ const NewAccountForm = () => {
       setUsername("")
       setName("")
       setPassword("")
+      dispatch(addUser(createdUser))
       dispatch(setNotification("account created succesfully", true, 5))
     } catch (error) {
       console.log("createUser error")
