@@ -1,6 +1,8 @@
 import { React } from "react"
 import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
+import { List, Typography } from "@material-ui/core"
+import { Link } from "react-router-dom"
 
 const SingleUser = () => {
   const id = useParams().id
@@ -8,14 +10,16 @@ const SingleUser = () => {
   const user = users.find((u) => u.id === id)
   if (user) {
     return (
-      <div>
-        <h3>{user.name}</h3>
-        <h4>added blogs</h4>
-        <ul>
+      <div className="SingleUser">
+        <Typography variant="h5">{user.name}</Typography>
+        <Typography variant="body1">added blogs:</Typography>
+        <List>
           {user.blogs.map((blog) => (
-            <li key={blog.id}>{blog.title}</li>
+            <li key={blog.id}>
+              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+            </li>
           ))}
-        </ul>
+        </List>
       </div>
     )
   } else {

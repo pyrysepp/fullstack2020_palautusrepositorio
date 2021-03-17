@@ -1,10 +1,8 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect } from "react"
 import BlogList from "./components/BlogList"
 import LoginForm from "./components/LoginForm"
 import SingleUser from "./components/SingleUser"
-import NewBlogForm from "./components/NewBlogForm"
 import StatusMessage from "./components/StatusMessage"
-import Togglable from "./components/Togglable"
 import { useDispatch, useSelector } from "react-redux"
 import { initializeBlogs } from "./reducers/blogReducer"
 import AllUsers from "./components/AllUsers"
@@ -15,6 +13,7 @@ import blogService from "./services/blogService"
 import { loggedUserAction } from "./reducers/loginReducer"
 import Blog from "./components/Blog"
 import Home from "./components/Home"
+import { Container } from "@material-ui/core"
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -34,11 +33,10 @@ const App = () => {
     /* return () => (mounted = false) */
   }, [dispatch])
 
-  const blogFormRef = useRef()
   const loginStatus = useSelector((state) => state.login.loginStatus)
   if (loginStatus) {
     return (
-      <div>
+      <Container>
         <Navigation />
         <StatusMessage />
         <Route path="/"></Route>
@@ -47,10 +45,6 @@ const App = () => {
             <Blog />
           </Route>
           <Route path="/blogs">
-            <h2>Blogs</h2>
-            <Togglable ref={blogFormRef} buttonLabel="add new blog">
-              <NewBlogForm reff={blogFormRef} />
-            </Togglable>
             <BlogList />
           </Route>
           <Route path="/users/:id">
@@ -63,15 +57,15 @@ const App = () => {
             <Home />
           </Route>
         </Switch>
-      </div>
+      </Container>
     )
   } else {
     return (
-      <div>
+      <Container>
         <Navigation />
         <StatusMessage />
         <LoginForm />
-      </div>
+      </Container>
     )
   }
 }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setNotification } from "../reducers/notificationReducer"
 
 import { createBlogAction } from "../reducers/blogReducer"
+import { TextField, Button, Typography } from "@material-ui/core"
 const NewBlogForm = ({ reff }) => {
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
@@ -43,11 +44,10 @@ const NewBlogForm = ({ reff }) => {
 
   if (loginStatus) {
     return (
-      <form onSubmit={handleSubmit} id="form">
-        <h2>Add a new blog</h2>
+      <form className="NewBlogForm" onSubmit={handleSubmit} id="form">
         <div>
-          title
-          <input
+          <TextField
+            label="Title"
             id="titleInput"
             type="text"
             value={title}
@@ -55,8 +55,8 @@ const NewBlogForm = ({ reff }) => {
           />
         </div>
         <div>
-          author
-          <input
+          <TextField
+            label="author"
             id="authorInput"
             type="text"
             value={author}
@@ -64,15 +64,15 @@ const NewBlogForm = ({ reff }) => {
           />
         </div>
         <div>
-          url
-          <input
+          <TextField
+            label="URL"
             id="urlInput"
             type="text"
             value={url}
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type="submit">create</button>
+        <Button type="submit">create</Button>
       </form>
     )
   } else {

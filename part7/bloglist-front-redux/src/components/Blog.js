@@ -3,13 +3,14 @@ import React, { useState } from "react"
 import "../styles/Blog.css"
 import { setNotification } from "../reducers/notificationReducer"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import Togglable from "./Togglable"
 import {
   likeBlogAction,
   removeBlogAction,
   commentBlogAction,
 } from "../reducers/blogReducer"
+import { Button, TextField, Typography, Grid } from "@material-ui/core"
 const Blog = () => {
   const [comment, setComment] = useState("")
   /* const [showFull, setShowFull] = useState(false) */
@@ -50,7 +51,7 @@ const Blog = () => {
     return (
       <div className="Blog">
         {blog.title} {blog.author}
-        <button onClick={() => setShowFull(!showFull)}>view</button>
+        <Button onClick={() => setShowFull(!showFull)}>view</Button>
       </div>
     )
   } else { */
@@ -63,33 +64,44 @@ const Blog = () => {
   }
 
   return (
-    <div className="Blog">
-      <p>{blog.title}</p>
-      {/*  <button onClick={() => setShowFull(!showFull)}>hide</button> */}
-      <p>{blog.url}</p>
-      <p className="likes">
-        {blog.likes}{" "}
-        <button
-          onClick={() => {
-            handleLike()
-          }}
-        >
-          like
-        </button>
-      </p>
-      <p>{blog.author}</p>
-      <button onClick={() => handleRemove()}>remove</button>
-      <h3>Comments</h3>
+    <div className="blog">
+      <Grid>
+        <Typography variant="h5">{blog.title}</Typography>
+        {/*  <Button onClick={() => setShowFull(!showFull)}>hide</Button> */}
+        <Typography variant="body1">
+          <a href={blog.url}>{blog.url}</a>
+        </Typography>
+
+        <div className="likes">
+          <Typography variant="h6">{blog.likes} Likes </Typography>
+          <Button
+            onClick={() => {
+              handleLike()
+            }}
+          >
+            like
+          </Button>
+        </div>
+
+        <Typography variant="body1">{blog.author}</Typography>
+        <Button onClick={() => handleRemove()}>remove</Button>
+      </Grid>
+      <Typography variant="h5">Comments</Typography>
       {blog.comments.map((c) => (
-        <p key={Math.random()}>{c}</p>
+        <div className="SingleComment" key={Math.random()}>
+          <Typography variant="body1">{c}</Typography>
+        </div>
       ))}
-      <p>Write a new comment!</p>
-      <form onSubmit={handleComment}>
-        <input
-          value={comment}
-          onChange={(event) => setComment(event.target.value)}
-        />
-      </form>
+      <div>
+        <form onSubmit={handleComment}>
+          <Typography variant="body2">Write a new comment!</Typography>
+          <TextField
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+          />
+          <Button type="submit">Post</Button>
+        </form>
+      </div>
     </div>
   )
   /*  } */

@@ -4,6 +4,12 @@ import { setNotification } from "../reducers/notificationReducer"
 import { useDispatch } from "react-redux"
 import userService from "../services/userService"
 import { addUser } from "../reducers/usersReducer"
+import {
+  Button,
+  TextField as form,
+  TextField,
+  Typography,
+} from "@material-ui/core"
 const NewAccountForm = () => {
   const [username, setUsername] = useState("")
   const [name, setName] = useState("")
@@ -34,27 +40,28 @@ const NewAccountForm = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <div>
-            Username:
-            <input
+            <TextField
+              label="Username"
               value={username}
               onChange={(event) => setUsername(event.target.value)}
             />
           </div>
           <div>
-            Name:
-            <input
+            <TextField
+              label="Name"
               value={name}
               onChange={(event) => setName(event.target.value)}
             />
           </div>
           <div>
-            Password:
-            <input
+            <TextField
+              label="Password"
               value={password}
+              type="password"
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
-          <button type="submit">register</button>
+          <Button type="submit">register</Button>
         </form>
       </div>
     </Togglable>
