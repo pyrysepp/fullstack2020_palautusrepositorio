@@ -13,6 +13,7 @@ import { initUsers } from "./reducers/usersReducer"
 import Navigation from "./components/Navigation"
 import blogService from "./services/blogService"
 import { loggedUserAction } from "./reducers/loginReducer"
+import Blog from "./components/Blog"
 import Home from "./components/Home"
 const App = () => {
   const dispatch = useDispatch()
@@ -40,19 +41,28 @@ const App = () => {
       <div>
         <Navigation />
         <StatusMessage />
-        <Home />
-        <Togglable ref={blogFormRef} buttonLabel="add new blog">
-          <NewBlogForm reff={blogFormRef} />
-        </Togglable>
-        <Route path="/blogs">
-          <BlogList />
-        </Route>
-        <Route path="/users">
-          <AllUsers />
-        </Route>
-        <Route path="/users/:id">
-          <SingleUser />
-        </Route>
+        <Route path="/"></Route>
+        <Switch>
+          <Route path="/blogs/:id">
+            <Blog />
+          </Route>
+          <Route path="/blogs">
+            <h2>Blogs</h2>
+            <Togglable ref={blogFormRef} buttonLabel="add new blog">
+              <NewBlogForm reff={blogFormRef} />
+            </Togglable>
+            <BlogList />
+          </Route>
+          <Route path="/users/:id">
+            <SingleUser />
+          </Route>
+          <Route path="/users">
+            <AllUsers />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
     )
   } else {

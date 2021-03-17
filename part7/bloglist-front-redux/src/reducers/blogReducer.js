@@ -1,4 +1,5 @@
 import blogService from "../services/blogService"
+import { setNotification } from "./notificationReducer"
 
 const initialState = []
 const blogReducer = (state = initialState, action) => {
@@ -9,6 +10,8 @@ const blogReducer = (state = initialState, action) => {
       return state.concat(action.data)
     case "REMOVE_BLOG":
       return state.filter((a) => a.id !== action.data)
+    case "COMMENT_BLOG":
+      return state.map((b) => (b.id === action.data.id ? action.data : b))
     case "LIKE_BLOG":
       return state.map((a) => (a.id === action.data.id ? action.data : a))
     default:
@@ -26,7 +29,21 @@ export const initializeBlogs = () => {
     })
   }
 }
-
+export const commentBlogAction = (id, comment) => {
+  return async (dispatch) => {
+    try {
+      const commentedBlog = await blogService.commentBlog(id, comment)
+      console.log(commentedBlog)
+      dispatch({
+        type: "COMMENT_BLOG",
+        data: commentedBlog,
+      })
+    } catch (error) {
+      console.log("comment error")
+      dispatch(setNotification(error.response.error.message, false, 5))
+    }
+  }
+}
 export const createBlogAction = (blog) => {
   return async (dispatch) => {
     const newBlog = await blogService.create(blog)
