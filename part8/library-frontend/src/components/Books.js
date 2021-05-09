@@ -1,9 +1,33 @@
 import React, { useEffect, useState } from "react"
-import { useQuery } from "@apollo/client"
-import { ALL_BOOKS } from "../queries"
+import { useQuery, useSubscription } from "@apollo/client"
+import { ALL_BOOKS, BOOK_ADDED } from "../queries"
 import Select from "react-select"
 const Books = (props) => {
   const result = useQuery(ALL_BOOKS)
+  const client = props.client
+
+  const updateCacheWith = (addedBook) => {
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+
+    client.writeQuery({
+      query: ALL_BOOKS,
+      data: { allBooks: dataInStore.allBooks.concat(addedBook) },
+    })
+    console.log("cache", dataInStore)
+  }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.log(subscriptionData)
+      window.alert("new book added")
+      console.log(client.readQuery({ query: ALL_BOOKS }))
+      updateCacheWith(subscriptionData.data.bookAdded)
+      /* console.log(result.subscriptionData.data.bookAdded)
+      setBooks(books.concat(result.subscriptionData.data.bookAdded))
+      const createdOptions = createOptions(books)
+      setOptions(createdOptions) */
+    },
+  })
   const [books, setBooks] = useState([])
   const [options, setOptions] = useState([])
   const [genreFilter, setGenreFilter] = useState(null)
@@ -14,7 +38,7 @@ const Books = (props) => {
       const createdOptions = createOptions(result.data.allBooks)
       setOptions(createdOptions)
     }
-  }, [result.data])
+  }, [result.data, client.readQuery({ query: ALL_BOOKS })])
 
   const createOptions = (booksParameter) => {
     const genres = booksParameter.map((b) => b.genres)
