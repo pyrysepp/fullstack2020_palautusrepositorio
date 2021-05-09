@@ -1,3 +1,4 @@
+require("dotenv").config()
 const {
   ApolloServer,
   gql,
@@ -9,8 +10,8 @@ const Book = require("./schemas/Book")
 const Author = require("./schemas/Author")
 const User = require("./schemas/User")
 const jwt = require("jsonwebtoken")
-const MONGODB_URI =
-  "mongodb+srv://fullstack-pyry:fspyry@cluster0.bfoth.mongodb.net/library?retryWrites=true&w=majority"
+
+const MONGODB_URI = process.env.MONGODB_URI
 const JWT_SECERET = "NOT VERY SECRET KEY"
 mongoose
   .connect(MONGODB_URI, {
